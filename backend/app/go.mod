@@ -1,5 +1,7 @@
 module github.com/xiao-en-5970/Goodminton/backend/app
+
 replace github.com/xiao-en-5970/Goodminton/backend/app => .
+
 go 1.23.5
 
 require github.com/zeromicro/go-zero v1.8.2

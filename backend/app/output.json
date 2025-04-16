@@ -1,0 +1,491 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/users/list": {
+      "get": {
+        "summary": "获取用户列表",
+        "operationId": "listUsers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "description": " 页码",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64",
+            "default": "1"
+          },
+          {
+            "name": "page_size",
+            "description": " 每页大小",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64",
+            "default": "20"
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users/me": {
+      "get": {
+        "summary": "获取当前用户信息",
+        "operationId": "getCurrentUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserInfo"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users/register": {
+      "post": {
+        "summary": "用户注册",
+        "operationId": "register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserInfo"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 用户注册请求",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users/update": {
+      "put": {
+        "summary": "更新用户信息",
+        "operationId": "updateUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserInfo"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 用户更新请求",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users/{user_id}": {
+      "get": {
+        "summary": "获取用户详情",
+        "operationId": "getUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserInfo"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user_id",
+            "description": " 用户ID",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "删除用户",
+        "operationId": "deleteUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "description": " ID请求",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "IdReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户ID"
+        }
+      },
+      "title": "IdReq",
+      "required": [
+        "user_id"
+      ]
+    },
+    "PageReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "default": "1",
+          "description": " 页码"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "default": "20",
+          "description": " 每页大小"
+        }
+      },
+      "title": "PageReq",
+      "required": [
+        "page",
+        "page_size"
+      ]
+    },
+    "PageResp": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 总数"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserInfo"
+          },
+          "description": " 用户列表"
+        }
+      },
+      "title": "PageResp",
+      "required": [
+        "total",
+        "list"
+      ]
+    },
+    "RegisterReq": {
+      "type": "object",
+      "properties": {
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar_path": {
+          "type": "string",
+          "description": " 头像路径"
+        },
+        "self_evaluated_level": {
+          "type": "string",
+          "description": " 自评技术水平"
+        },
+        "personality_tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 性格标签"
+        },
+        "play_style_tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 打球风格"
+        },
+        "preferred_skill_level": {
+          "type": "string",
+          "description": " 希望对手技术水平"
+        },
+        "preferred_time_slots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 时间偏好"
+        },
+        "preferred_regions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 常活动区域"
+        },
+        "max_cost": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 可接受花销"
+        }
+      },
+      "title": "RegisterReq"
+    },
+    "UpdateReq": {
+      "type": "object",
+      "properties": {
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar_path": {
+          "type": "string",
+          "description": " 头像路径"
+        },
+        "self_evaluated_level": {
+          "type": "string",
+          "description": " 自评技术水平"
+        },
+        "personality_tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 性格标签"
+        },
+        "play_style_tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 打球风格"
+        },
+        "preferred_skill_level": {
+          "type": "string",
+          "description": " 希望对手技术水平"
+        },
+        "preferred_time_slots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 时间偏好"
+        },
+        "preferred_regions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 常活动区域"
+        },
+        "max_cost": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 可接受花销"
+        }
+      },
+      "title": "UpdateReq"
+    },
+    "UserInfo": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户ID"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar_path": {
+          "type": "string",
+          "description": " 头像路径"
+        },
+        "self_evaluated_level": {
+          "type": "string",
+          "description": " 自评技术水平"
+        },
+        "system_score": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 系统评分"
+        },
+        "personality_tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 性格标签"
+        },
+        "play_style_tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 打球风格"
+        },
+        "preferred_skill_level": {
+          "type": "string",
+          "description": " 希望对手技术水平"
+        },
+        "preferred_time_slots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 时间偏好"
+        },
+        "preferred_regions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 常活动区域"
+        },
+        "max_cost": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 可接受花销"
+        },
+        "create_time": {
+          "type": "string",
+          "description": " 创建时间"
+        },
+        "update_time": {
+          "type": "string",
+          "description": " 更新时间"
+        }
+      },
+      "title": "UserInfo",
+      "required": [
+        "user_id",
+        "nickname",
+        "avatar_path",
+        "self_evaluated_level",
+        "system_score",
+        "personality_tags",
+        "play_style_tags",
+        "preferred_skill_level",
+        "preferred_time_slots",
+        "preferred_regions",
+        "max_cost",
+        "create_time",
+        "update_time"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

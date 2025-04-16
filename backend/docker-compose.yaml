@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  golang:
+    
+    image: golang:1.23.5-alpine  # 使用轻量级Alpine镜像
+    container_name: golang
+    working_dir: /app            # 容器内工作目录
+    volumes:
+      - ./:/app                  # 挂载本地代码到容器
+    environment:
+      - GO111MODULE=on           # 启用Go Modules
+      - GOPROXY=https://goproxy.cn,direct  # 国内代理加速
+    tty: true                    # 保持容器运行
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123123  # 设置root密码
+      MYSQL_DATABASE: goodminton_db        # 初始创建的数据库名
+    
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql   # 数据持久化
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql  # 挂载初始化脚本
+    networks:
+      - app_net
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.0-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data            # 数据持久化
+    networks:
+      - app_net
+    restart: unless-stopped
+  
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  app_net:
+    driver: bridge

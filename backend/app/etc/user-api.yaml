@@ -1,0 +1,6 @@
+Name: user-api
+Host: 0.0.0.0
+Port: 8888
+Auth:
+  AccessSecret: "goodminton"
+  AccessExpire: 3600  # token 过期时间（秒）

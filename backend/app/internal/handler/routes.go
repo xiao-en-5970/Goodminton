@@ -6,6 +6,7 @@ package handler
 import (
 	"net/http"
 
+	user "github.com/xiao-en-5970/Goodminton/backend/app/internal/handler/user"
 	"github.com/xiao-en-5970/Goodminton/backend/app/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -15,10 +16,52 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodGet,
-				Path:    "/from/:name",
-				Handler: AppHandler(serverCtx),
+				// 用户注册
+				Method:  http.MethodPost,
+				Path:    "/register",
+				Handler: user.RegisterHandler(serverCtx),
 			},
 		},
+		rest.WithPrefix("/api/v1/users"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.AuthInterceptor},
+			[]rest.Route{
+				{
+					// 获取用户详情
+					Method:  http.MethodGet,
+					Path:    "/:user_id",
+					Handler: user.GetUserHandler(serverCtx),
+				},
+				{
+					// 删除用户
+					Method:  http.MethodDelete,
+					Path:    "/:user_id",
+					Handler: user.DeleteUserHandler(serverCtx),
+				},
+				{
+					// 获取用户列表
+					Method:  http.MethodGet,
+					Path:    "/list",
+					Handler: user.ListUsersHandler(serverCtx),
+				},
+				{
+					// 获取当前用户信息
+					Method:  http.MethodGet,
+					Path:    "/me",
+					Handler: user.GetCurrentUserHandler(serverCtx),
+				},
+				{
+					// 更新用户信息
+					Method:  http.MethodPut,
+					Path:    "/update",
+					Handler: user.UpdateUserHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/v1/users"),
 	)
 }

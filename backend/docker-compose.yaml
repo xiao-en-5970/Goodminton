@@ -38,6 +38,27 @@ services:
     networks:
       - app_net
     restart: unless-stopped
+  # hfut-api:
+  #   image: node:18-slim
+  #   container_name: hfut-api
+  #   working_dir: /app
+  #   volumes:
+  #     - ./:/app
+  #   command: >
+  #     bash -c "
+  #     apt-get update && apt-get install -y curl git &&
+  #     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash &&
+  #     export NVM_DIR=\"$HOME/.nvm\" &&
+  #     [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\" &&
+  #     nvm install 18 &&
+  #     npm install -g pnpm &&
+  #     git clone https://github.com/hfut-soft-ware/hfut-api.git &&
+  #     cd hfut-api &&
+  #     pnpm install &&
+  #     pnpm run start
+  #     "
+  #   ports:
+  #     - "8082:8082" 
   
 
 volumes:

@@ -39,6 +39,7 @@ type RedisConfig struct {
 type HfutAPI struct {
 	Host string `mapstructure:"host"`
 	Port int    `mapstructure:"port"`
+	Retry int 	`mapstructure:"retry"`
 }
 
 type LoggingConfig struct {

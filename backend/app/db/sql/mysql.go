@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/xiao-en-5970/Goodminton/backend/app/global"
+	"github.com/xiao-en-5970/Goodminton/backend/app/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -29,7 +30,8 @@ func InitMySQL() {
 		global.Logger.Fatalf("Failed to connect to MySQL: %v", err)
 		panic(fmt.Errorf("Failed to connect to MySQL: %v", err))
 	}
-	global.Db = db
+	
+	
 	// 获取底层SQL DB连接池
 	sqlDB, err := db.DB()
 	if err != nil {
@@ -41,6 +43,11 @@ func InitMySQL() {
 	sqlDB.SetMaxIdleConns(global.Cfg.MySQL.MaxIdleConns)           // 最大空闲连接数
 	sqlDB.SetMaxOpenConns(global.Cfg.MySQL.SetMaxOpenConns)          // 最大打开连接数
 	sqlDB.SetConnMaxLifetime(global.Cfg.MySQL.ConnMaxLifetime*time.Hour) // 连接最大存活时间
-	
+	global.Db = db
+	err = db.AutoMigrate(&model.User{})
+	if err != nil {
+		panic("自动迁移失败: " + err.Error())
+	}
 	global.Logger.Infoln("MySQL connected successfully")
+	
 }

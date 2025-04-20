@@ -10,9 +10,7 @@ import (
 )
 
 func LogicLogin(c *gin.Context,req *types.LoginReq)(resp *types.UserInfo,code int,err error){
-	
 	user,_:=model.FindUserByName(req.Username)
-	
 	if user!=nil{
 		//用户存在
 		if (bcrypts.CheckPasswordHash(user.PasswordHash,req.Password)){

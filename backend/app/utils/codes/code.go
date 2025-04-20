@@ -20,6 +20,7 @@ const(
 	CodeUserLoginSchoolIntervalError  = 20005 //信息门户内部问题，请重试
 	CodeUserLoginSchoolUnkonwnError  = 20006 //信息门户未知错误
 	CodeUserRegisterSuccess = 20007 //注册成功
+	CodeUserNotExist = 20008 //用户不存在
 )
 var(
 	CodeMsg = map[int]string{
@@ -37,5 +38,6 @@ var(
 		CodeUserLoginSchoolIntervalError : "信息门户内部问题，请重试",
 		CodeUserLoginSchoolUnkonwnError  : "信息门户未知错误",
 		CodeUserRegisterSuccess : "注册成功",
+		CodeUserNotExist :"用户不存在",
 	}
 )

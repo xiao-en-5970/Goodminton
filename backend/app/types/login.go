@@ -3,20 +3,17 @@ package types
 // LoginReq 登录请求参数
 // swagger:parameters login
 type LoginReq struct {
-    // 用户名，4-20位字母数字组合
-    // Required: true
-    // Example: admin123
+
     Username string `json:"username" binding:"required,alphanum,min=4,max=20"`
-    
-    // 密码，最少6位
-    // Required: true
-    // Example: password123
+
     Password string `json:"password" binding:"required,min=6"`
 }
 
 // LoginResp 登录响应数据
 // swagger:model LoginResp
-type LoginResp UserInfo
+type LoginResp struct{
+	Cookie string `json:"cookie"`
+}
 
 type UserInfo struct {
 	ID                  int64    `json:"id"`                   // 用户编号

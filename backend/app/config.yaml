@@ -21,4 +21,6 @@ hfut-api:
   retry: 10
 logging:
   level: "info"
+auth:
+  max_age: 86400
   

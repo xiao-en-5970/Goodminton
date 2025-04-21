@@ -121,16 +121,22 @@ func ConvertUserToUserInfo(dbUser *User) (*types.UserInfo, error) {
     if err != nil {
         return &types.UserInfo{}, fmt.Errorf("解析常活动区域失败: %v", err)
     }
-
+    
     historicalPartners, err := parseJSONToStringSlice(dbUser.HistoricalPartners)
-    if err != nil {
-        return &types.UserInfo{}, fmt.Errorf("解析历史搭档失败: %v", err)
+    if historicalPartners !=nil{
+        if err != nil {
+            return &types.UserInfo{}, fmt.Errorf("解析历史搭档失败: %v", err)
+        }
     }
+    
 
     ratingsGiven, err := parseJSONToStringSlice(dbUser.RatingsGiven)
-    if err != nil {
-        return &types.UserInfo{}, fmt.Errorf("解析评价记录失败: %v", err)
+    if ratingsGiven!=nil{
+        if err != nil {
+            return &types.UserInfo{}, fmt.Errorf("解析评价记录失败: %v", err)
+        }
     }
+    
 
     // 构建UserInfo
     userInfo := &types.UserInfo{
@@ -336,3 +342,7 @@ func RegisterReqToUser(req *types.RegisterReq) (*User, error) {
 	return user, nil
 }
 
+
+func UpdateUser(newuser * User)(error){
+    return global.Db.Model(&User{ID: newuser.ID}).Updates(*newuser).Error
+}

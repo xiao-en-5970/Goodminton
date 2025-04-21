@@ -24,6 +24,8 @@ func SuccessWithCode(c *gin.Context,code int){
 	})
 }
 
+
+
 func SuccessWithMsg(c *gin.Context,msg string){
 	c.JSON(http.StatusOK,gin.H{
 		"code":codes.CodeAllSuccess,
@@ -53,6 +55,14 @@ func ErrorBadRequest(c *gin.Context,err error){
 		"code":codes.CodeAllRequestFormatError,
 		"msg":codes.CodeMsg[codes.CodeAllRequestFormatError],
 		"err":err.Error(),
+	})
+}
+
+func ErrorBadRequestWithCode(c *gin.Context,code int){
+	c.JSON(http.StatusBadRequest,gin.H{
+		"code":code,
+		"msg":codes.CodeMsg[code],
+		"data":"null",
 	})
 }
 

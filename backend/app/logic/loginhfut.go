@@ -1,8 +1,7 @@
 package logic
 
 import (
-	"errors"
-	"io"
+
 	"net/http"
 	"net/url"
 	"time"
@@ -23,7 +22,7 @@ func LogicLoginHFUT(req *types.LoginHFUTReq)(code int,err error){
 		return codes.CodeAllBadGateway,err
 	}
 	defer rsp.Body.Close()
-	by,_:=io.ReadAll(rsp.Body)
+	
 	if rsp.StatusCode==200{
 		//登录信息门户成功
 		return codes.CodeUserLoginSchoolAuthSuccess,nil
@@ -46,6 +45,6 @@ func LogicLoginHFUT(req *types.LoginHFUTReq)(code int,err error){
 	}else{
 		global.Logger.Infof("rsp.Body: %v\n", )
 		//登录信息门户未知问题
-		return codes.CodeUserLoginSchoolUnkonwnError,errors.New(string(by))
+		return codes.CodeUserLoginSchoolUnkonwnError,nil
 	}
 }

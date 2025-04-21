@@ -21,6 +21,11 @@ const(
 	CodeUserLoginSchoolUnkonwnError  = 20006 //信息门户未知错误
 	CodeUserRegisterSuccess = 20007 //注册成功
 	CodeUserNotExist = 20008 //用户不存在
+	CodeUserAlreadyExist = 20009 //用户已经存在
+	CodeUserInfoUpdateFail = 20010 //用户信息更新失败
+	//鉴权错误
+	CodeAuthNotExistError = 30001 //未授权
+	CodeAuthUnvalidToken = 30002 //无效token
 )
 var(
 	CodeMsg = map[int]string{
@@ -39,5 +44,11 @@ var(
 		CodeUserLoginSchoolUnkonwnError  : "信息门户未知错误",
 		CodeUserRegisterSuccess : "注册成功",
 		CodeUserNotExist :"用户不存在",
+		CodeUserAlreadyExist :"用户已经存在",
+		CodeUserInfoUpdateFail :"用户信息更新失败",
+
+		//鉴权错误
+		CodeAuthNotExistError :"未授权",
+		CodeAuthUnvalidToken :"无效token",
 	}
 )

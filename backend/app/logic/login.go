@@ -3,26 +3,35 @@ package logic
 import (
 	"github.com/gin-gonic/gin"
 
+	"github.com/xiao-en-5970/Goodminton/backend/app/global"
 	"github.com/xiao-en-5970/Goodminton/backend/app/model"
 	"github.com/xiao-en-5970/Goodminton/backend/app/types"
+	"github.com/xiao-en-5970/Goodminton/backend/app/utils/auth"
 	"github.com/xiao-en-5970/Goodminton/backend/app/utils/bcrypts"
 	"github.com/xiao-en-5970/Goodminton/backend/app/utils/codes"
 )
 
-func LogicLogin(c *gin.Context,req *types.LoginReq)(resp *types.UserInfo,code int,err error){
+func LogicLogin(c *gin.Context,req *types.LoginReq)(resp *types.LoginResp,code int,err error){
 	user,_:=model.FindUserByName(req.Username)
 	if user!=nil{
 		//用户存在
-		if (bcrypts.CheckPasswordHash(user.PasswordHash,req.Password)){
+		if (bcrypts.CheckPasswordHash(req.Password,user.PasswordHash)){
 			//账密正确
-			userinfo,err:=model.ConvertUserToUserInfo(user)
-			if err!=nil{
-				return &types.UserInfo{},codes.CodeAllIntervalError,err
+			// 生成Token
+			token, err := auth.GenerateToken(req.Username)
+			if err != nil {
+				return &types.LoginResp{},codes.CodeAllIntervalError,err
 			}
-			return userinfo,codes.CodeUserLoginSuccess,nil
+
+			// 设置HTTP-Only Cookie
+			c.SetCookie("auth_token", token, int(global.Cfg.Auth.MaxAge), "/", "", false, true) // 24小时过期
+			cookieValue, err := c.Cookie("auth_token")
+			global.Logger.Infoln(cookieValue)
+			return &types.LoginResp{},codes.CodeUserLoginSuccess,nil
 		}else{
 			//账密错误
-			return &types.UserInfo{},codes.CodeUserLoginPasswordError,nil
+			global.Logger.Errorf("%#v %#v",user.PasswordHash,req.Password)
+			return &types.LoginResp{},codes.CodeUserLoginPasswordError,nil
 		}
 	}else{
 		// 用户不存在
@@ -30,6 +39,6 @@ func LogicLogin(c *gin.Context,req *types.LoginReq)(resp *types.UserInfo,code in
 			Username: req.Username,
 			Password: req.Password,
 		})
-		return &types.UserInfo{},code,err
+		return &types.LoginResp{},code,err
 	}
 }

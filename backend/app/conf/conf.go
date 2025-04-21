@@ -8,13 +8,16 @@ import (
 
 
 type Config struct {
-	Server   Server   `mapstructure:"server"`
+	Server   Server   		`mapstructure:"server"`
 	MySQL    MysqlConfig 	`mapstructure:"mysql"`
 	Redis    RedisConfig    `mapstructure:"redis"`
-	HfutAPI  HfutAPI      `mapstructure:"hfut-api"`
+	HfutAPI  HfutAPI      	`mapstructure:"hfut-api"`
 	Logging  LoggingConfig  `mapstructure:"logging"`
+	Auth 	 Auth 			`mapstructure:"auth"`
 }
-
+type Auth struct{ 
+	MaxAge time.Duration `mapstructure:"max_age"`
+}
 type Server struct {
 	Port    int           `mapstructure:"port"`
 	Timeout time.Duration `mapstructure:"timeout"`

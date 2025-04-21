@@ -15,7 +15,7 @@ func RouteInit(r * gin.Engine){
 	apiGroup := r.Group("api/v1")
 	apiGroup.Use(zaplog.ZapLogger(global.Logger))
 	apiGroup.GET("/",func(c *gin.Context) {
-		responce.Success(c)
+		responce.SuccessWithMsg(c,"测试成功!")
 	})
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	UserRouteInit(apiGroup)

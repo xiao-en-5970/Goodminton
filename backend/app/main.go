@@ -35,5 +35,5 @@ func main() {
 
     r := gin.New()
     route.RouteInit(r)
-    r.Run(fmt.Sprintf("127.0.0.1:%d",global.Cfg.Server.Port)) // 默认监听8080端口
+    r.Run(fmt.Sprintf("0.0.0.0:%d",global.Cfg.Server.Port)) // 默认监听8080端口
 }
